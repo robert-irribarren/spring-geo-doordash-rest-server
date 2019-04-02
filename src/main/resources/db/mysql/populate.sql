@@ -1,18 +1,52 @@
 -- ****** Create Restaurant Addresses --
-
+SET @mcdonald_image = 'https://armhc.org/wp-content/uploads/2016/02/ronald-mcdonald-house-charities-atlanta-mcdonalds-logo.450.jpg';
+SET @chipotle_image = 'https://image.cnbcfm.com/api/v1/image/103987468-CMG_Chorizo_Burrito_4x62.jpg?v=1529472850&w=740&h=493';
+SET @panda_image = 'https://media-cdn.tripadvisor.com/media/photo-w/04/ab/76/b4/panda-express.jpg';
 -- ****** MCDONALDS ****
 INSERT IGNORE INTO Address (address_1,city,state,country,location,`name`) VALUES ('1100 Fillmore St','San Francisco','CA','USA',POINT(37.778173,-122.4439419),'McDonalds on Fillmore');
-INSERT IGNORE INTO Address (address_1,city,state,country,location,name) VALUES ('302 Potrero Ave','San Francisco','CA','USA',POINT(37.7654262,-122.410096),'McDonalds on Potrero');
+INSERT IGNORE INTO Address (address_1,city,state,country,location,`name`) VALUES ('302 Potrero Ave','San Francisco','CA','USA',POINT(37.7654262,-122.410096),'McDonalds on Potrero');
 INSERT IGNORE INTO Address (address_1,city,state,country,location,`name`) VALUES ('2801 Mission St','San Francisco','CA','USA',POINT(37.7520976,-122.4202066),'McDonalds on Mission');
+
+INSERT IGNORE INTO Merchant (`name`,phone,address_id,banner_image_url) VALUES ('McDonalds','555-555-5555',(
+SELECT id FROM Address WHERE address_1='1100 Fillmore St'
+),@mcdonald_image);
+
+INSERT IGNORE INTO Merchant (`name`,phone,address_id,banner_image_url) VALUES ('McDonalds','555-555-5555',(
+SELECT id FROM Address WHERE address_1='302 Potrero Ave'
+),@mcdonald_image);
+
+INSERT IGNORE INTO Merchant (`name`,phone,address_id,banner_image_url) VALUES ('McDonalds','555-555-5555',(
+SELECT id FROM Address WHERE address_1='2801 Mission St'
+),@mcdonald_image);
 
 -- ***** CHIPOTLES *****
 INSERT IGNORE INTO Address (address_1,city,state,country,location,`name`) VALUES ('2675 Geary Blvd','San Francisco','CA','USA',POINT(37.7821724,-122.4486524),'Chipotle on Geary');
 INSERT IGNORE INTO Address (address_1,city,state,country,location,`name`) VALUES ("232 O'Farrell St",'San Francisco','CA','USA',POINT(37.7865367,-122.4091356),"Chipotle on O'Farrell");
 INSERT IGNORE INTO Address (address_1,city,state,country,location,`name`) VALUES ('50 California St','San Francisco','CA','USA',POINT(37.7940529,-122.3994977),'Chipotle on California');
 
+INSERT IGNORE INTO Merchant (`name`,phone,address_id,banner_image_url) VALUES ('Chipotle','555-555-5555',(
+SELECT id FROM Address WHERE address_1='2675 Geary Blvd'
+),@chipotle_image);
+
+INSERT IGNORE INTO Merchant (`name`,phone,address_id,banner_image_url) VALUES ('Chipotle','555-555-5555',(
+SELECT id FROM Address WHERE address_1="232 O'Farrell St"
+),@chipotle_image);
+
+INSERT IGNORE INTO Merchant (`name`,phone,address_id,banner_image_url) VALUES ('Chipotle','555-555-5555',(
+SELECT id FROM Address WHERE address_1='50 California St'
+),@chipotle_image);
+
 -- ***** PANDA EXPRESS *****
 INSERT IGNORE INTO Address (address_1,city,state,country,location,`name`) VALUES ('1480 Fillmore St','San Francisco','CA','USA',POINT(37.7831613,-122.4346283),'Panda on Fillmore');
 INSERT IGNORE INTO Address (address_1,city,state,country,location,`name`) VALUES ('865 Market St','San Francisco','CA','USA',POINT(37.7839502,-122.4079934),'Panda on Market');
+
+INSERT IGNORE INTO Merchant (`name`,phone,address_id,banner_image_url) VALUES ('Panda Express','555-555-5555',(
+SELECT id FROM Address WHERE address_1='1480 Fillmore St'
+),@chipotle_image);
+
+INSERT IGNORE INTO Merchant (`name`,phone,address_id,banner_image_url) VALUES ('Panda Express','555-555-5555',(
+SELECT id FROM Address WHERE address_1='865 Market St'
+),@chipotle_image);
 
 -- ***** App User Addresses *****
 -- Lives at apple store @ union square

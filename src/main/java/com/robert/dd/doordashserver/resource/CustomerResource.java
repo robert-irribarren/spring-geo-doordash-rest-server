@@ -22,11 +22,11 @@ public class CustomerResource {
     private CustomerRepository customerRepository;
 
     @RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Collection<Customer>> getOwners() {
+    public ResponseEntity<Collection<Customer>> getCustomers() {
         Collection<Customer> customers = this.customerRepository.findAll();
         if (customers.isEmpty()) {
-            return new ResponseEntity<Collection<Customer>>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<Collection<Customer>>(customers, HttpStatus.OK);
+        return new ResponseEntity<>(customers, HttpStatus.OK);
     }
 }

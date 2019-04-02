@@ -2,6 +2,7 @@ package com.robert.dd.doordashserver.model;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vividsolutions.jts.geom.Point;
 import org.hibernate.annotations.Formula;
 
@@ -27,11 +28,15 @@ public class Address extends BaseModel {
     @Column(name="country")
     private String country;
 
-    @Formula("ST_X(location)")
+    @JsonIgnore
+    @Column(name="location")
+    private Point location;
+
+/*    @Formula("ST_X(location)")
     private String latitude;
 
     @Formula("ST_Y(location)")
-    private String longitude;
+    private String longitude;*/
 
     @Column(name="name")
     private String name;
@@ -92,7 +97,15 @@ public class Address extends BaseModel {
         this.name = name;
     }
 
-    public String getLatitude() {
+    public Point getLocation() {
+        return location;
+    }
+
+    public void setLocation(Point location) {
+        this.location = location;
+    }
+
+    /*public String getLatitude() {
         return latitude;
     }
 
@@ -106,5 +119,5 @@ public class Address extends BaseModel {
 
     public void setLongitude(String longitude) {
         this.longitude = longitude;
-    }
+    }*/
 }

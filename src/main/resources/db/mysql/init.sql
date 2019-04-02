@@ -9,11 +9,10 @@ USE doordash;
 -- ****************** SqlDBM: MySQL ******************;
 -- ***************************************************;
 DROP TABLE IF EXISTS `CustomerAddress`;
-
 DROP TABLE IF EXISTS `Customer`;
-
-
+DROP TABLE IF EXISTS `Merchant`;
 DROP TABLE IF EXISTS `Address`;
+
 
 -- ************************************** `Customer`
 
@@ -49,11 +48,6 @@ CREATE TABLE `Address`
 PRIMARY KEY (`id`)
 );
 
-
-
-
-
-
 -- ************************************** `CustomerAddress`
 
 CREATE TABLE `CustomerAddress`
@@ -68,4 +62,15 @@ FOREIGN KEY (`customer_id`) REFERENCES `Customer` (`id`),
 FOREIGN KEY (`address_id`) REFERENCES `Address` (`id`)
 );
 
-
+CREATE TABLE `Merchant`
+(
+ `id`               varchar(36) DEFAULT (uuid()) NOT NULL,
+ `created_at`     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+ `updated_at`     TIMESTAMP DEFAULT NOW() ON UPDATE NOW(),
+ `address_id`       varchar(36) NOT NULL ,
+ `name`             varchar(100) NOT NULL ,
+ `phone`            varchar(32) ,
+ `banner_image_url` varchar(256) ,
+PRIMARY KEY (`id`),
+FOREIGN KEY (`address_id`) REFERENCES `Address` (`id`)
+);
