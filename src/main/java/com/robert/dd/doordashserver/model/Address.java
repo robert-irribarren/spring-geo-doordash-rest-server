@@ -4,7 +4,6 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vividsolutions.jts.geom.Point;
-import org.hibernate.annotations.Formula;
 
 @Entity
 @Table(name = "Address")
@@ -28,7 +27,6 @@ public class Address extends BaseModel {
     @Column(name="country")
     private String country;
 
-    @JsonIgnore
     @Column(name="location")
     private Point location;
 

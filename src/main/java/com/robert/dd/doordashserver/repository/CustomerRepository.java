@@ -1,9 +1,17 @@
 package com.robert.dd.doordashserver.repository;
 
 import com.robert.dd.doordashserver.model.Customer;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import com.robert.dd.doordashserver.model.Merchant;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-@Repository
-public interface CustomerRepository extends JpaRepository<Customer,String>{
+import java.util.List;
+
+@Transactional
+public interface CustomerRepository extends GenericRepository<Customer,String>{
+
+    @Override
+    @Query("SELECT customer FROM Customer customer, Address addr left join fetch customer.addresses")
+    List<Customer> findAll();
 }

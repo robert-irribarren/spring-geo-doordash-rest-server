@@ -36,6 +36,14 @@ public abstract class BaseModel implements Serializable {
     @LastModifiedDate
     private Date updatedAt;
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public Date getCreatedAt() {
         return createdAt;
     }
