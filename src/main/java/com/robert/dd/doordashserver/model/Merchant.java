@@ -1,7 +1,5 @@
 package com.robert.dd.doordashserver.model;
 
-import com.vividsolutions.jts.geom.Point;
-
 import javax.persistence.*;
 
 @Entity
@@ -11,6 +9,7 @@ public class Merchant extends BaseModel {
     private String phone;
     private String bannerImageUrl;
     private String name;
+    private long distance;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
@@ -46,5 +45,13 @@ public class Merchant extends BaseModel {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public long getDistance() {
+        return distance;
+    }
+
+    public void setDistance(long distance) {
+        this.distance = distance;
     }
 }

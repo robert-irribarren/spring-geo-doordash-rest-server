@@ -1,14 +1,9 @@
 package com.robert.dd.doordashserver.repository;
 
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.NoRepositoryBean;
-
-import java.util.List;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 @NoRepositoryBean
-public interface GenericRepository<T,U> extends CrudRepository<T, U> {
-
-    @Override
-    List<T> findAll();
+public interface GenericRepository<T,U> extends PagingAndSortingRepository<T, U> {
 
 }

@@ -1,4 +1,2 @@
 SQL
 Address Table add place_id varchar(100), add active boolean
-
-convert point to lat long

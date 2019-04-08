@@ -1,9 +1,10 @@
 package com.robert.dd.doordashserver.model;
 
-import javax.persistence.*;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vividsolutions.jts.geom.Point;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "Address")
@@ -29,12 +30,6 @@ public class Address extends BaseModel {
 
     @Column(name="location")
     private Point location;
-
-/*    @Formula("ST_X(location)")
-    private String latitude;
-
-    @Formula("ST_Y(location)")
-    private String longitude;*/
 
     @Column(name="name")
     private String name;
@@ -102,20 +97,4 @@ public class Address extends BaseModel {
     public void setLocation(Point location) {
         this.location = location;
     }
-
-    /*public String getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(String latitude) {
-        this.latitude = latitude;
-    }
-
-    public String getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(String longitude) {
-        this.longitude = longitude;
-    }*/
 }

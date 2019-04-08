@@ -3,15 +3,18 @@ package com.robert.dd.doordashserver.resource;
 import com.robert.dd.doordashserver.model.Address;
 import com.robert.dd.doordashserver.repository.AddressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.List;
+
 
 @RestController
 @CrossOrigin(exposedHeaders = "errors, content-type")
@@ -22,11 +25,11 @@ public class AddressResource {
     private AddressRepository addressRepository;
 
     @RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Collection<Address>> getAddresses() {
-        Collection<Address> addresses = this.addressRepository.findAll();
+    public ResponseEntity<List<Address>> getAddresses(Pageable pageable) {
+        Page<Address> addresses = this.addressRepository.findAll(pageable);
         if (addresses.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(addresses, HttpStatus.OK);
+        return new ResponseEntity<>(addresses.getContent(), HttpStatus.OK);
     }
 }

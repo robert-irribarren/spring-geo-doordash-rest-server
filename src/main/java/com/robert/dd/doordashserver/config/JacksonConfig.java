@@ -1,4 +1,4 @@
-package com.robert.dd.doordashserver;
+package com.robert.dd.doordashserver.config;
 
 import com.bedatadriven.jackson.datatype.jts.JtsModule;
 import org.springframework.context.annotation.Bean;

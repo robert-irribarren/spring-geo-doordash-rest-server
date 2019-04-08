@@ -43,9 +43,10 @@ CREATE TABLE `Address`
  `city`      varchar(120) NOT NULL ,
  `state`     varchar(120) ,
  `country`   varchar(32) NOT NULL ,
- `location`  point NOT NULL ,
+ `location`  point NOT NULL SRID 4326,
  `name`      varchar(120) NOT NULL ,
-PRIMARY KEY (`id`)
+PRIMARY KEY (`id`),
+SPATIAL INDEX(`location`)
 );
 
 -- ************************************** `CustomerAddress`
@@ -74,3 +75,32 @@ CREATE TABLE `Merchant`
 PRIMARY KEY (`id`),
 FOREIGN KEY (`address_id`) REFERENCES `Address` (`id`)
 );
+
+-- ***** Create random 1000 Customers and 1000 CustomerAddresses *****
+drop procedure if exists generate_test_users_and_addresses;
+DELIMITER $$
+CREATE PROCEDURE generate_test_users_and_addresses(num int)
+
+   BEGIN
+      DECLARE cnt INT Default 1 ;
+      DECLARE rand_name varchar(64);
+      DECLARE cust_id varchar(64);
+      DECLARE addr_id varchar(64);
+      START TRANSACTION;
+      WHILE cnt<=num DO
+		SET @rand_name = (SELECT CONCAT("test_",REPLACE(UUID(),'-',''))) ;
+		SET @cust_id = UUID();
+        SET @addr_id = UUID();
+        # insert user
+        INSERT IGNORE INTO Customer (id,first_name,last_name,phone,email,verified_email,verified_phone) VALUES (@cust_id,@rand_name,'test','555-555-5555','test_'+rand()+'@domain.com',true,true);
+
+        # insert address
+        INSERT IGNORE INTO Address (id,address_1,city,state,country,location,`name`) VALUES (@addr_id,'Grace Cathedral','San Francisco','CA','USA',ST_SRID(POINT(-122.4131572,37.7919387), 4326),'Test customer at grace cathedral');
+
+        # insert assoc table entry
+        INSERT INTO CustomerAddress (customer_id,address_id) VALUES(@cust_id,@addr_id);
+
+         SET cnt=cnt+1;
+	  END WHILE;
+      COMMIT;
+END $$

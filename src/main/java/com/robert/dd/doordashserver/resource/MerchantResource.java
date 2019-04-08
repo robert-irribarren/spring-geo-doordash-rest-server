@@ -2,12 +2,13 @@ package com.robert.dd.doordashserver.resource;
 
 import com.robert.dd.doordashserver.model.Merchant;
 import com.robert.dd.doordashserver.repository.MerchantRepository;
-
 import com.robert.dd.doordashserver.utils.GeoUtils;
 import com.robert.dd.doordashserver.validation.BindingErrorsResponse;
 import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.Polygon;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
 
 @RestController
 @CrossOrigin(exposedHeaders = "errors, content-type")
@@ -27,15 +30,14 @@ public class MerchantResource {
     private MerchantRepository merchantRepository;
 
     @RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Iterable<Merchant>> getMerchants(){
-        Collection<Merchant> merchants = this.merchantRepository.findAll();
+    public ResponseEntity<List<Merchant>> getMerchants(Pageable page){
+        Page<Merchant> merchants = this.merchantRepository.findAll(page);
         if (merchants.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(merchants, HttpStatus.OK);
+        return new ResponseEntity<>(merchants.getContent(), HttpStatus.OK);
     }
 
-    private final double NEARBY_DIAMETER_METERS = 3000d;
     @RequestMapping(value = "/nearby", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Collection<Merchant>> getClosestMerchantsToPoint(
             @RequestBody @Valid LocationRequestBody req,
@@ -47,16 +49,16 @@ public class MerchantResource {
             headers.add("errors", errors.toJSON());
             return new ResponseEntity<>(null, headers, HttpStatus.BAD_REQUEST);
         }
-        Polygon circle = GeoUtils.createRadius(req.getLatitude(),req.getLongitude(),req.getRadius());
-        //Geometry geo = GeoUtils.bufferPoint(req.getLatitude(),req.getLongitude(),req.getRadius());
-        Collection<Merchant> merchants = this.merchantRepository.findAllNearby(circle);
+        Geometry circle = GeoUtils.create3DCircle(req.getLatitude(),req.getLongitude(),req.getRadius());
+        List<Merchant> merchants = this.merchantRepository.findAllNearby(circle);
         for (Merchant merch: merchants){
-            Long dist = GeoUtils.getDistance(merch.getAddress().getLocation().getY(),
-                    merch.getAddress().getLocation().getX(),
+            Long dist = GeoUtils.getDistance(merch.getAddress().getLocation().getX(),
+                    merch.getAddress().getLocation().getY(),
                     req.getLongitude(),
                     req.getLatitude());
-            System.out.println(dist);
+            merch.setDistance(dist);
         }
+        merchants.sort(Comparator.comparingLong(Merchant::getDistance));
         if (merchants.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
