@@ -16,18 +16,19 @@ public class ActuatorSecurityConfig extends WebSecurityConfigurerAdapter {
     // source : https://github.com/callicoder/spring-boot-actuator-demo/blob/master/src/main/java/com/example/actuatordemo/config/ActuatorSecurityConfig.java
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
+        http.csrf().disable()
                 .authorizeRequests()
                     //.requestMatchers(EndpointRequest.toAnyEndpoint())
                     //    .permitAll()
                     .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
                         .permitAll()
                     .requestMatchers(EndpointRequest.to(HealthEndpoint.class)).permitAll()
-                    .antMatchers("/", "/api/**/*")
+                    .antMatchers("/", "/api/**")
                         .permitAll()
-                    .antMatchers("/**")
-                        .authenticated()
                 .and()
-                .httpBasic();
+                .authorizeRequests()
+                .anyRequest()
+                .authenticated()
+                ;
     }
 }

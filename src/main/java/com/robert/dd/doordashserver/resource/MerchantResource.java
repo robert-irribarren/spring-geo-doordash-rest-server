@@ -1,5 +1,6 @@
 package com.robert.dd.doordashserver.resource;
 
+import com.robert.dd.doordashserver.model.Address;
 import com.robert.dd.doordashserver.model.Merchant;
 import com.robert.dd.doordashserver.repository.MerchantRepository;
 import com.robert.dd.doordashserver.utils.GeoUtils;
@@ -29,6 +30,22 @@ public class MerchantResource {
     @Autowired
     private MerchantRepository merchantRepository;
 
+    /** CREATE && UPDATE UPSERT **/
+    @RequestMapping(value = "", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<Merchant> saveAddress(@RequestBody @Valid Merchant merchant, BindingResult bindingResult) {
+        BindingErrorsResponse errors = new BindingErrorsResponse();
+        HttpHeaders headers = new HttpHeaders();
+        if (bindingResult.hasErrors() ||  (merchant==null)){
+            errors.addAllErrors(bindingResult);
+            headers.add("errors", errors.toJSON());
+            return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
+        }
+
+        this.merchantRepository.save(merchant);
+        return new ResponseEntity<>(merchant, HttpStatus.OK);
+    }
+
+    /** READS **/
     @RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<Merchant>> getMerchants(Pageable page){
         Page<Merchant> merchants = this.merchantRepository.findAll(page);
@@ -39,7 +56,7 @@ public class MerchantResource {
     }
 
     @RequestMapping(value = "/nearby", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Collection<Merchant>> getClosestMerchantsToPoint(
+    public ResponseEntity<Collection<Merchant>> getClosestMerchantsToPoint(Pageable page,
             @RequestBody @Valid LocationRequestBody req,
             BindingResult bindingResult){
         BindingErrorsResponse errors = new BindingErrorsResponse();
@@ -50,7 +67,7 @@ public class MerchantResource {
             return new ResponseEntity<>(null, headers, HttpStatus.BAD_REQUEST);
         }
         Geometry circle = GeoUtils.create3DCircle(req.getLatitude(),req.getLongitude(),req.getRadius());
-        List<Merchant> merchants = this.merchantRepository.findAllNearby(circle);
+        List<Merchant> merchants = this.merchantRepository.findAllNearby(page,circle);
         for (Merchant merch: merchants){
             Long dist = GeoUtils.getDistance(merch.getAddress().getLocation().getX(),
                     merch.getAddress().getLocation().getY(),

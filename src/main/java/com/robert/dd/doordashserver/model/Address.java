@@ -95,6 +95,9 @@ public class Address extends BaseModel {
     }
 
     public void setLocation(Point location) {
+        location.setSRID(4326);
         this.location = location;
     }
+
+
 }
