@@ -8,12 +8,12 @@ import org.springframework.boot.actuate.trace.http.HttpTraceEndpoint;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 @Configuration
-public class ActuatorSecurityConfig extends WebSecurityConfigurerAdapter {
+public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    // source : https://github.com/callicoder/spring-boot-actuator-demo/blob/master/src/main/java/com/example/actuatordemo/config/ActuatorSecurityConfig.java
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
@@ -30,5 +30,13 @@ public class ActuatorSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest()
                 .authenticated()
                 ;
+        }
+
+    /** global resource requests allowed here **/
+    @Override public void configure(WebSecurity web) throws Exception {
+        web.ignoring()
+                .mvcMatchers("/swagger-ui.html/**",
+                        "/configuration/**","/swagger-resources/**",
+                        "/v2/api-docs","/webjars/**");
     }
 }

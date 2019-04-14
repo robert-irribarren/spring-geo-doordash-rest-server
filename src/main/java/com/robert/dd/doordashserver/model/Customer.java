@@ -29,7 +29,7 @@ public class Customer extends BaseModel {
     private boolean verifiedPhone;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "CustomerAddress",
+    @JoinTable(name = "CustomerAddressMap",
             joinColumns = { @JoinColumn(name = "customer_id", referencedColumnName = "id") },
             inverseJoinColumns = { @JoinColumn(name = "address_id", referencedColumnName = "id") })
     private List<Address> addresses;

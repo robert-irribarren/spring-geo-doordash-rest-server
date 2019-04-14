@@ -54,7 +54,7 @@ public class AddressResource {
     }
 
     @RequestMapping(value = "/customers/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<List<Address>> getAddresses(Pageable page, @PathVariable("id") String customerId) {
+    public ResponseEntity<List<Address>> getAddressesById(Pageable page, @PathVariable("id") String customerId) {
         List<Address> addresses = this.addressRepository.getAddressesByCustomerId(page,customerId);
         if (addresses.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

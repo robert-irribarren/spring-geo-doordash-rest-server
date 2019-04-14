@@ -60,16 +60,16 @@ INSERT IGNORE INTO Customer (first_name,last_name,phone,email,verified_email,ver
 INSERT IGNORE INTO Customer (first_name,last_name,phone,email,verified_email,verified_phone) VALUES ('William','Shakespear','555-555-5555','william@domain.com',true,true);
 
 -- ***** Address for customer William *****
-INSERT INTO CustomerAddress (customer_id,address_id) SELECT c.id, a.id FROM
+INSERT INTO CustomerAddressMap (customer_id,address_id) SELECT c.id, a.id FROM
 (SELECT id FROM Address WHERE address_1 = '472 Water St' LIMIT 1) a,
 (SELECT id FROM Customer WHERE first_name="William" LIMIT 1) c;
 
 -- ***** Address for customer Robbie *****
-INSERT INTO CustomerAddress (customer_id,address_id) SELECT c.id, a.id FROM
+INSERT INTO CustomerAddressMap (customer_id,address_id) SELECT c.id, a.id FROM
 (SELECT id FROM Address WHERE address_1 = '300 Post St' LIMIT 1) a,
 (SELECT id FROM Customer WHERE first_name="Robbie" LIMIT 1) c;
 
--- ***** Create random 1000 Customers and 1000 CustomerAddresses *****
+-- ***** Create random 1000 Customers and 1000 CustomerAddressMaps *****
 CALL generate_test_users_and_addresses(1000)
 
 
