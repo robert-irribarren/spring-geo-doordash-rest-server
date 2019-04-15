@@ -13,11 +13,7 @@ public class Customer extends BaseModel {
 
     @Column(name="last_name")
     private String lastName;
-
-    @Column(name="phone")
     private String phone;
-
-    @Column(name="email")
     private String email;
 
     @Column(name = "verified_email")

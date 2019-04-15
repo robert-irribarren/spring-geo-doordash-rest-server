@@ -1,5 +1,5 @@
 # Doordash Rest Server
-
+## Version 0.0.7
 My shot at making a doordash server with spring boot
 
 ### Powered by
@@ -10,7 +10,3 @@ My shot at making a doordash server with spring boot
 
 ### DB Design
 <p align="center"><img src="https://github.com/robert-irribarren/spring-geo-doordash-rest-server/blob/master/db_design.PNG?raw=true"/></p>
-
--Customer --> CustomerAddress(Assoc. mapping) --> Address
-
--Merchant --> Address (mapped by fk Merchant.address_id)

@@ -1,12 +1,15 @@
 package com.robert.dd.doordashserver.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name="Merchant")
 public class Merchant extends BaseModel {
 
     private String phone;
+
+    @Column(name="banner_image_url")
     private String bannerImageUrl;
     private String name;
     private long distance;
@@ -14,6 +17,12 @@ public class Merchant extends BaseModel {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "MerchantCategoryMap",
+            joinColumns = { @JoinColumn(name = "merchant_id", referencedColumnName = "id")},
+            inverseJoinColumns = { @JoinColumn(name="merchantcategory_id", referencedColumnName = "id")})
+    private List<MerchantCategory> categories;
 
     public String getPhone() {
         return phone;
@@ -53,5 +62,13 @@ public class Merchant extends BaseModel {
 
     public void setDistance(long distance) {
         this.distance = distance;
+    }
+
+    public List<MerchantCategory> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<MerchantCategory> categories) {
+        this.categories = categories;
     }
 }

@@ -1,3 +1,13 @@
+DELETE FROM `CustomerAddressMap`;
+DELETE FROM `CustomerOrderItem`;
+DELETE FROM `CustomerOrder`;
+DELETE FROM `Customer`;
+DELETE FROM `MerchantCategoryMap`;
+DELETE FROM `MerchantProduct`;
+DELETE FROM `MerchantCategory`;
+DELETE FROM `Merchant`;
+DELETE FROM `Address`;
+
 -- ****** Create Restaurant Addresses --
 SET @mcdonald_image = 'https://armhc.org/wp-content/uploads/2016/02/ronald-mcdonald-house-charities-atlanta-mcdonalds-logo.450.jpg';
 SET @chipotle_image = 'https://image.cnbcfm.com/api/v1/image/103987468-CMG_Chorizo_Burrito_4x62.jpg?v=1529472850&w=740&h=493';
@@ -19,6 +29,12 @@ INSERT IGNORE INTO Merchant (`name`,phone,address_id,banner_image_url) VALUES ('
 SELECT id FROM Address WHERE address_1='2801 Mission St'
 ),@mcdonald_image);
 
+-- ***** McDonalds STOCK UP*****
+CALL generate_merchant_inventory_mcdonalds((SELECT m.id FROM Address a, Merchant m WHERE m.address_id = a.id AND a.address_1='1100 Fillmore St'));
+CALL generate_merchant_inventory_mcdonalds((SELECT m.id FROM Address a, Merchant m WHERE m.address_id = a.id AND a.address_1="302 Potrero Ave"));
+CALL generate_merchant_inventory_mcdonalds((SELECT m.id FROM Address a, Merchant m WHERE m.address_id = a.id AND a.address_1='2801 Mission St'));
+
+
 -- ***** CHIPOTLES *****
 INSERT IGNORE INTO Address (address_1,city,state,country,location,`name`) VALUES ('2675 Geary Blvd','San Francisco','CA','USA',ST_SRID(POINT(-122.4486524,37.7821724), 4326),'Chipotle on Geary');
 INSERT IGNORE INTO Address (address_1,city,state,country,location,`name`) VALUES ("232 O'Farrell St",'San Francisco','CA','USA',ST_SRID(POINT(-122.4091356,37.7865367), 4326),"Chipotle on O'Farrell");
@@ -36,6 +52,11 @@ INSERT IGNORE INTO Merchant (`name`,phone,address_id,banner_image_url) VALUES ('
 SELECT id FROM Address WHERE address_1='50 California St'
 ),@chipotle_image);
 
+-- ***** CHIPOTLES STOCK UP*****
+CALL generate_merchant_inventory_chipotle((SELECT m.id FROM Address a, Merchant m WHERE m.address_id = a.id AND a.address_1='2675 Geary Blvd'));
+CALL generate_merchant_inventory_chipotle((SELECT m.id FROM Address a, Merchant m WHERE m.address_id = a.id AND a.address_1="232 O'Farrell St"));
+CALL generate_merchant_inventory_chipotle((SELECT m.id FROM Address a, Merchant m WHERE m.address_id = a.id AND a.address_1='50 California St'));
+
 -- ***** PANDA EXPRESS *****
 INSERT IGNORE INTO Address (address_1,city,state,country,location,`name`) VALUES ('1480 Fillmore St','San Francisco','CA','USA',ST_SRID(POINT(-122.4346283,37.7831613), 4326),'Panda on Fillmore');
 INSERT IGNORE INTO Address (address_1,city,state,country,location,`name`) VALUES ('865 Market St','San Francisco','CA','USA',ST_SRID(POINT(-122.4079934,37.7839502), 4326),'Panda on Market');
@@ -48,7 +69,25 @@ INSERT IGNORE INTO Merchant (`name`,phone,address_id,banner_image_url) VALUES ('
 SELECT id FROM Address WHERE address_1='865 Market St'
 ),@chipotle_image);
 
+-- ***** Panda STOCK UP*****
+CALL generate_merchant_inventory_panda((SELECT m.id FROM Address a, Merchant m WHERE m.address_id = a.id AND a.address_1='1480 Fillmore St'));
+CALL generate_merchant_inventory_panda((SELECT m.id FROM Address a, Merchant m WHERE m.address_id = a.id AND a.address_1="865 Market St"));
+
 -- ***** App User Addresses *****
+
+-- *** create some basic tags ***
+INSERT IGNORE INTO merchantcategory (`name`)
+VALUES ('pizza'),('mexican'),('thai'),('american'),
+('sushi'),('asian'),('italian'),('burgers'),
+('vietnamese'),('desserts'),('korean'),('sandwiches'),
+('fast food' ),('alcohol'),('seafood');
+
+-- *** Link the food tags to the merchants ***
+CALL label_merchant_name_to_category_tag('Chipotle','mexican');
+CALL label_merchant_name_to_category_tag('McDonalds','american');
+CALL label_merchant_name_to_category_tag('McDonalds','fast food');
+CALL label_merchant_name_to_category_tag('McDonalds','burgers');
+
 -- Lives at apple store @ union square
 INSERT IGNORE INTO Address (address_1,city,state,country,location,`name`) VALUES ('300 Post St','San Francisco','CA','USA',ST_SRID(POINT(-122.3994977,37.7940529), 4326),'Customer at union square sf');
 
@@ -70,6 +109,4 @@ INSERT INTO CustomerAddressMap (customer_id,address_id) SELECT c.id, a.id FROM
 (SELECT id FROM Customer WHERE first_name="Robbie" LIMIT 1) c;
 
 -- ***** Create random 1000 Customers and 1000 CustomerAddressMaps *****
-CALL generate_test_users_and_addresses(1000)
-
-
+CALL generate_test_users_and_addresses(100)

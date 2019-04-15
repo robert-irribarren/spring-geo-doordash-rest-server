@@ -19,19 +19,10 @@ public class Address extends BaseModel {
     @Column(name="address_3")
     private String address3;
 
-    @Column(name="city")
     private String city;
-
-    @Column(name="state")
     private String state;
-
-    @Column(name="country")
     private String country;
-
-    @Column(name="location")
     private Point location;
-
-    @Column(name="name")
     private String name;
 
     public String getAddress1() {

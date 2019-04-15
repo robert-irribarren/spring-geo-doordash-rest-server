@@ -1,7 +1,6 @@
 package com.robert.dd.doordashserver.model;
 
 import com.vividsolutions.jts.geom.Point;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.ReadOnlyProperty;
 
 import javax.persistence.*;
@@ -26,37 +25,45 @@ public class CustomerOrder extends BaseModel {
     @JoinTable(name = "CustomerOrderItem",
             joinColumns = { @JoinColumn(name = "order_id", referencedColumnName = "id") },
             inverseJoinColumns = { @JoinColumn(name = "merchantproduct_id", referencedColumnName = "id")} )
-    private List<MerchantProductItem> orderItems;
+    private List<MerchantProduct> orderItems;
 
 
-    @Column(nullable = false)
+    @Column(name="delivery_address_1",nullable = false)
     private String deliveryAddress1;
+    @Column(name="delivery_address_2")
     private String deliveryAddress2;
+    @Column(name="delivery_address_3")
     private String deliveryAddress3;
+    @Column(name="delivery_city")
     private String deliveryCity;
+    @Column(name="delivery_state")
     private String deliveryState;
 
-    @Column(nullable = false)
+    @Column(name="delivery_location",nullable = false)
     private Point deliveryLocation;
+
+    @Column(name="delivery_additional_info")
     private String deliveryAdditionalInfo;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(nullable = false)
+    @Column(name="order_time",nullable = false)
     private Date orderTime;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date foodReady;
+    @Column(name="food_ready_time")
+    private Date foodReadyTime;
 
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(name="actual_delivery_time")
     private Date actualDeliveryTime;
 
     @Column(columnDefinition="Decimal(12,2)")
     private double price;
 
     @Column(columnDefinition="Decimal(12,2)")
-    private double dicount;
+    private double discount;
 
-    @Column(columnDefinition = "Decimal(12,2)")
+    @Column(name="final_price",columnDefinition = "Decimal(12,2)")
     private double finalPrice;
 
     public Merchant getMerchant() {
@@ -139,12 +146,12 @@ public class CustomerOrder extends BaseModel {
         this.orderTime = orderTime;
     }
 
-    public Date getFoodReady() {
-        return foodReady;
+    public Date getFoodReadyTime() {
+        return foodReadyTime;
     }
 
     public void setFoodReady(Date foodReady) {
-        this.foodReady = foodReady;
+        this.foodReadyTime = foodReadyTime;
     }
 
     public Date getActualDeliveryTime() {
@@ -163,12 +170,12 @@ public class CustomerOrder extends BaseModel {
         this.price = price;
     }
 
-    public double getDicount() {
-        return dicount;
+    public double getDiscount() {
+        return discount;
     }
 
-    public void setDicount(double dicount) {
-        this.dicount = dicount;
+    public void setDiscount(double discount) {
+        this.discount = discount;
     }
 
     public double getFinalPrice() {

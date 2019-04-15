@@ -1,6 +1,5 @@
 package com.robert.dd.doordashserver.resource;
 
-import com.robert.dd.doordashserver.model.Address;
 import com.robert.dd.doordashserver.model.Merchant;
 import com.robert.dd.doordashserver.repository.MerchantRepository;
 import com.robert.dd.doordashserver.utils.GeoUtils;
@@ -8,7 +7,6 @@ import com.robert.dd.doordashserver.validation.BindingErrorsResponse;
 import com.vividsolutions.jts.geom.Geometry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
