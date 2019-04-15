@@ -32,6 +32,10 @@ repositories {
 dependencies {
 	implementation fileTree(dir: 'lib', include: ['*.jar'])
 
+
+	// google places
+	implementation 'com.google.maps:google-maps-services:0.9.3'
+
 	// https://mvnrepository.com/artifact/org.geotools/gt-referencing
 	compile("org.geotools:gt-referencing:$geotoolVersion"){
 		exclude group: 'javax.media', module: 'jai_core'

@@ -14,4 +14,7 @@ import java.util.List;
 public interface MerchantRepository extends UpsertRepository<Merchant,String>, PagingAndSortingRepository<Merchant, String> {
     @Query(value = "SELECT merch FROM Merchant merch WHERE within(merch.address.location, :bounds) = true")
     List<Merchant> findAllNearby(Pageable page, @Param("bounds") Geometry bounds);
+
+    @Query(value = "SELECT merch FROM Merchant merch WHERE merch.name = :name AND merch.address.address1 = :address")
+    Merchant findMerchantByNameAddress(@Param("name") String name, @Param("address") String address);
 }

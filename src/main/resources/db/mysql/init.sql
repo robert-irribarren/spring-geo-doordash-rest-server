@@ -50,7 +50,7 @@ CREATE TABLE `Address`
  `state`     varchar(120) ,
  `country`   varchar(32) NOT NULL ,
  `location`  point NOT NULL SRID 4326,
- `name`      varchar(120) NOT NULL ,
+ `name`      varchar(120),
 PRIMARY KEY (`id`),
 SPATIAL INDEX(`location`)
 );

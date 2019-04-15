@@ -2,7 +2,7 @@ package com.robert.dd.doordashserver.resource;
 
 import com.robert.dd.doordashserver.model.BaseModel;
 import com.robert.dd.doordashserver.model.MerchantProduct;
-import com.robert.dd.doordashserver.repository.MerchantProductItemRepository;
+import com.robert.dd.doordashserver.repository.MerchantProductRepository;
 import com.robert.dd.doordashserver.validation.BindingErrorsResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,7 +23,7 @@ import java.util.List;
 public class MerchantProductResource extends BaseModel {
 
     @Autowired
-    private MerchantProductItemRepository merchantProductItemRepository;
+    private MerchantProductRepository merchantProductItemRepository;
 
     /** CREATE && UPDATE UPSERT **/
     @RequestMapping(value = "", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Transactional
-public interface MerchantProductItemRepository extends UpsertRepository<MerchantProduct,String>, PagingAndSortingRepository<MerchantProduct,String> {
+public interface MerchantProductRepository extends UpsertRepository<MerchantProduct,String>, PagingAndSortingRepository<MerchantProduct,String> {
 
     @Query("SELECT mpi FROM MerchantProduct mpi WHERE mpi.merchantId = :merchId")
     List<MerchantProduct> getProductsForMerchant(Pageable page, @Param("merchId") String id);
