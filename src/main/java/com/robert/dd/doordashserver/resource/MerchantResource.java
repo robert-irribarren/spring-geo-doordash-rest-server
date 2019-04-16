@@ -5,6 +5,9 @@ import com.robert.dd.doordashserver.repository.MerchantRepository;
 import com.robert.dd.doordashserver.utils.GeoUtils;
 import com.robert.dd.doordashserver.validation.BindingErrorsResponse;
 import com.vividsolutions.jts.geom.Geometry;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.Example;
+import io.swagger.annotations.ExampleProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -53,9 +56,9 @@ public class MerchantResource {
         return new ResponseEntity<>(merchants.getContent(), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/nearby", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @RequestMapping(value = "/nearby", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Collection<Merchant>> getClosestMerchantsToPoint(Pageable page,
-            @RequestBody @Valid LocationRequestBody req,
+                                                                           @RequestBody @Valid LocationRequestBody req,
             BindingResult bindingResult){
         BindingErrorsResponse errors = new BindingErrorsResponse();
         HttpHeaders headers = new HttpHeaders();

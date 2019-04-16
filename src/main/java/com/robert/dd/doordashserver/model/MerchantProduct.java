@@ -1,5 +1,7 @@
 package com.robert.dd.doordashserver.model;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.annotation.ReadOnlyProperty;
 
 import javax.persistence.*;
@@ -8,6 +10,7 @@ import javax.persistence.*;
 @Table(name = "MerchantProduct")
 public class MerchantProduct extends BaseModel {
 
+    private transient Logger logger = LoggerFactory.getLogger(MerchantProduct.class);
     /*@ReadOnlyProperty
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "merchant_id", referencedColumnName = "id")
@@ -78,5 +81,11 @@ public class MerchantProduct extends BaseModel {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    @PrePersist
+    @PreUpdate
+    public void preSave() {
+        if (description!=null) description=description.substring(0,Math.min(description.length(),255));
     }
 }

@@ -23,7 +23,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                     .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
                         .permitAll()
                     .requestMatchers(EndpointRequest.to(HealthEndpoint.class)).permitAll()
-                    .antMatchers("/", "/api/**")
+                    .antMatchers("/", "/api/**","/api/**/*")
                         .permitAll()
                 .and()
                 .authorizeRequests()

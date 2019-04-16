@@ -41,8 +41,15 @@ public class DoordashServerApplication {
 	@PostConstruct
 	public void init(){
 		// init code goes here
-		if (SEED_MODE){
-			googlePlacesSeed.seed(points);
+		if (SEED_MODE) {
+			Thread t = new Thread(new Runnable() {
+				@Override
+				public void run() {
+					googlePlacesSeed.seed(points);
+				}
+			});
+			t.setName("Google Seeding");
+			t.start();
 		}
 
 	}

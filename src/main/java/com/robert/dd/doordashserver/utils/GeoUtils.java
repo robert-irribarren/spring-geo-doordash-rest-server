@@ -31,6 +31,7 @@ public class GeoUtils {
     }
 
     /**
+     * TODO Perhaps dont wrap around the latitude longitude
      * Generate a circle around a given point
      *
      * @param lat Degrees of latitude between -90 and 90
@@ -49,7 +50,21 @@ public class GeoUtils {
             double azimuth = 180 - (i * baseAzimuth);
             calc.setDirection(azimuth, radiusMeters);
             Point2D point = calc.getDestinationGeographicPoint();
-            coords[i] = new Coordinate(point.getX(), point.getY());
+            double pointLat = point.getY();
+            double pointLng = point.getX();
+            if (pointLat<-90) {
+                pointLat = (pointLat% 90) + 90;
+            } else if (pointLat>90){
+                pointLat = (pointLat % 90) - 90;
+            }
+            if (pointLng<-180) {
+                pointLng = (pointLng % 180) + 180;
+            } else if (pointLng>180){
+                pointLng = (pointLng % 180) - 180;
+            }
+
+
+            coords[i] = new Coordinate(pointLng, pointLat);
         }
         coords[SIDES] = coords[0];
 

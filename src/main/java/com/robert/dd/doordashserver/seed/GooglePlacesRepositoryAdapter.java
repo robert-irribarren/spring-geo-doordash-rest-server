@@ -82,8 +82,7 @@ public class GooglePlacesRepositoryAdapter {
     public void save(PlacesSearchResult result, String merchantName){
 
         MerchantType type = resolveMerchantName(merchantName);
-        double lat = result.geometry.location.lat;
-        double lng = result.geometry.location.lng;
+
         Merchant merchant = new Merchant();
         merchant.setName(result.name);
         merchant.setPlaceId(result.placeId);
@@ -92,7 +91,7 @@ public class GooglePlacesRepositoryAdapter {
             String[] addressTokens = result.vicinity.split(",");
             address.setAddress1(addressTokens[0]);
             address.setCity(addressTokens[1]);
-            Point point = gf.createPoint(new Coordinate(lat,lng));
+            Point point = gf.createPoint(new Coordinate(result.geometry.location.lng,result.geometry.location.lat));
             address.setLocation(point);
             address.setCountry("US");
             merchant.setAddress(address);

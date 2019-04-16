@@ -20,13 +20,13 @@ public class LocationRequestBody {
     @Max(20000) // 20km
     private double radius = 20000;
 
+    public static final double MAX_RADIUS = 20000;
+
     public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
+    public void setLatitude(double latitude) { this.latitude = latitude; }
 
     public double getLongitude() {
         return longitude;
@@ -41,6 +41,6 @@ public class LocationRequestBody {
     }
 
     public void setRadius(double radius) {
-        this.radius = radius;
+        this.radius = Math.min(MAX_RADIUS,radius);
     }
 }

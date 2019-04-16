@@ -23,6 +23,7 @@ $('[class^=Category_itemContainer').each(function(i, obj) {
 	name     = $(obj).find("[class^=Item_name]").text();
 	price    = $(obj).find("[class^=Item_price]").text();
 	price    = price.trim().substring(1);
+	if (price.length==0)continue;
 	desc     = $(obj).find("[class^=Item_description]").text().trim();
 	if (desc.length==0){
 		desc = null;
