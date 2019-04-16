@@ -14,6 +14,9 @@ public class Merchant extends BaseModel {
     private String name;
     private long distance;
 
+    @Column(name="place_id")
+    private String placeId;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
@@ -46,6 +49,14 @@ public class Merchant extends BaseModel {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPlaceId() {
+        return placeId;
+    }
+
+    public void setPlaceId(String placeId) {
+        this.placeId = placeId;
     }
 
     public Address getAddress() {

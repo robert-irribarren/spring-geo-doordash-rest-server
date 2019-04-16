@@ -33,8 +33,8 @@ public class DoordashServerApplication {
 
 	private double[][] points =
 			{
-					{37.7782221,-122.4170817}, // sf
-					{37.5548545,-121.9629831}, // fremont always dream park
+					//{37.7782221,-122.4170817}, // sf
+					//{37.5548545,-121.9629831}, // fremont always dream park
 					{37.3924529,-122.0791343}, // mountain view albertos
 			};
 

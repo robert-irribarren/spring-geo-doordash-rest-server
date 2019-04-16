@@ -50,7 +50,7 @@ public class GooglePlacesSeed {
             try {
                 newPlacesSearchResponse = nearbySearchRequest.await();
                 for (PlacesSearchResult response : newPlacesSearchResponse.results) {
-                    googlePlacesRepositoryAdapter.save(response, GooglePlacesRepositoryAdapter.MerchantType.CHIPOTLE);
+                    googlePlacesRepositoryAdapter.save(response, store);
                 }
             } catch (ApiException e) {
                 e.printStackTrace();

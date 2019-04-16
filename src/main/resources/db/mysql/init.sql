@@ -78,6 +78,7 @@ CREATE TABLE `Merchant`
  `name`             varchar(100) NOT NULL ,
  `phone`            varchar(32) ,
  `banner_image_url` varchar(256) ,
+ `place_id`         varchar(256) ,
 PRIMARY KEY (`id`),
 FOREIGN KEY (`address_id`) REFERENCES `Address` (`id`)
 );
@@ -132,9 +133,10 @@ CREATE TABLE `MerchantProduct`
  `updated_at`  TIMESTAMP DEFAULT NOW() ON UPDATE NOW(),
  `merchant_id` varchar(36) NOT NULL ,
  `name`        varchar(64) NOT NULL ,
- `description` varchar(256) ,
+ `description` varchar(512) ,
  `price`       decimal(12,2) NOT NULL ,
  `group_name`  varchar(256),
+ `image_url`   varchar(256),
 PRIMARY KEY (`id`),
 FOREIGN KEY (`merchant_id`) REFERENCES `Merchant` (`id`)
 );

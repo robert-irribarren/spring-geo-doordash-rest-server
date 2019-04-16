@@ -23,10 +23,14 @@ public class MerchantProduct extends BaseModel {
     @Column(name="group_name")
     private String groupName;
 
+    @Column(length = 256)
     private String description;
 
     @Column(columnDefinition = "Decimal(12,2)")
     private double price;
+
+    @Column(name="image_url")
+    private String imageUrl;
 
     public String getMerchantId() {
         return merchantId;
@@ -66,5 +70,13 @@ public class MerchantProduct extends BaseModel {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }
