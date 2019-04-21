@@ -1,5 +1,6 @@
 package com.robert.dd.doordashserver.model;
 
+import com.fasterxml.jackson.annotation.*;
 import com.vividsolutions.jts.geom.Point;
 import org.springframework.data.annotation.ReadOnlyProperty;
 
@@ -11,16 +12,16 @@ import java.util.List;
 @Table(name = "CustomerOrder")
 public class CustomerOrder extends BaseModel {
 
-    @ReadOnlyProperty
     @OneToOne
     @JoinColumn(name = "merchant_id", referencedColumnName = "id")
     private Merchant merchant;
 
-    @ReadOnlyProperty
     @OneToOne
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
     private Customer customer;
 
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
     @OneToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "CustomerOrderItem",
             joinColumns = { @JoinColumn(name = "order_id", referencedColumnName = "id") },

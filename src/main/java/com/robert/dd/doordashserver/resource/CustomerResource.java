@@ -39,8 +39,8 @@ public class CustomerResource {
             return new ResponseEntity<>(headers, HttpStatus.BAD_REQUEST);
         }
 
-        this.customerRepository.save(customer);
-        return new ResponseEntity<>(customer, HttpStatus.OK);
+        Customer savedCustomer = this.customerRepository.save(customer);
+        return new ResponseEntity<>(savedCustomer, HttpStatus.OK);
     }
 
     /** READS **/
